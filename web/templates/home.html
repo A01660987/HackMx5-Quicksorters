@@ -12,7 +12,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link href="{% static 'css/styles.css' %}" rel="stylesheet">
     </head>
-    <body class="bg-light-subtle">
+    <body class="bg-light-subtle" onload="startRecording()">
         <style>
             @font-face {
                 font-family: "Open Sans";
@@ -111,9 +111,6 @@
                 var fullMessage = '';
                 
                 navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-                    // let keywords = ['Emergencia','Ayuda','Auxilio','Accidente','Lesión','Herida','Incidente','Desastre','Peligro','Fuego','Quemadura','Asalto','Robo','Infarto','Dolor','Socorro','Sangre','Desmayo','Paro cardíaco','Respiración dificultosa','Enfermedad repentina','Violencia','Acoso','Amenaza','Secuestro'];
-                    // recursiveFunction(keywords);
-
                     if (!MediaRecorder.isTypeSupported('audio/webm')) {
                         return alert('Browser not supported');
                     }
@@ -121,7 +118,7 @@
                     mediaRecorder = new MediaRecorder(stream, {
                         mimeType: 'audio/webm',
                     });
-                    var socket = new WebSocket('ws://localhost:8000/listen');
+                    var socket = new WebSocket('ws://localhost:8080/listen');
                     socket.onopen = () => {
                         inicio = Date.now();
                         document.querySelector('#status').textContent = 'Grabando...';
